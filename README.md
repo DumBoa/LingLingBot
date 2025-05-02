@@ -15,4 +15,4 @@ LingLing là chatbot Discord đáng yêu, sử dụng Together.ai (LLaMA 3) đ�
 ### Bước 1: Clone repo
 
 ```bash
-git clone https://github.com/<your-username>/LingLing.git
+[ git clone https://github.com/<your-username>/LingLing.git ]
