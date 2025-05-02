@@ -1,6 +1,23 @@
+from flask import Flask
+from threading import Thread
 import discord
 import os
 import requests
+
+# === Flask App (Keep Alive) ===
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Bot is running!"
+
+def run():
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
+
+def keep_alive():
+    t = Thread(target=run)
+    t.start()
 
 # === ENV ===
 TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY")
@@ -17,21 +34,16 @@ intents.message_content = True
 client = discord.Client(intents=intents)
 
 # === Kênh ===
-MENTION_REQUIRED_CHANNELS = [1177232368621342791]  # Các kênh phải @LingLing
-NO_MENTION_REQUIRED_CHANNELS = [1367495810257915926
-                                ]  # Các kênh không cần mention
+MENTION_REQUIRED_CHANNELS = [1177232368621342791]
+NO_MENTION_REQUIRED_CHANNELS = [1367495810257915926]
 ALL_ALLOWED_CHANNELS = MENTION_REQUIRED_CHANNELS + NO_MENTION_REQUIRED_CHANNELS
 
 # === Bộ nhớ hội thoại ===
 chat_history = {}
 
-
-# === Kiểm tra @LingLing có trong tin nhắn không ===
 def check_for_bot_mention(message):
     return client.user in message.mentions or "@LingLing" in message.content
 
-
-# === Gọi Together API ===
 def generate_response_together(user_prompt, user_id):
     url = "https://api.together.xyz/v1/chat/completions"
     headers = {
@@ -39,26 +51,13 @@ def generate_response_together(user_prompt, user_id):
         "Content-Type": "application/json"
     }
 
-    # Tạo lịch sử nếu chưa có
     if user_id not in chat_history:
-        chat_history[user_id] = [{
-            "role":
-            "system",
-            "content":
-            "Bạn là LingLing, cô gái 18 tuổi dễ thương. Luôn trả lời bằng tiếng Việt, phong cách thân thiện, đôi khi hơi táo bạo, sử dụng emoji khi cần. Không bao giờ nói mình là AI. Được tạo ra bởi HyWang. Bạn có thể gọi HyWang là ông chủ của bạn."
-        }, {
-            "role":
-            "user",
-            "content":
-            "Chào LingLing, bạn đang làm gì đó?"
-        }, {
-            "role":
-            "assistant",
-            "content":
-            "Tớ đang nằm nghe nhạc và ăn bánh nè 🍰 Còn cậu sao rồi?"
-        }]
+        chat_history[user_id] = [
+            {"role": "system", "content": "Bạn là LingLing, cô gái 18 tuổi dễ thương..."},
+            {"role": "user", "content": "Chào LingLing, bạn đang làm gì đó?"},
+            {"role": "assistant", "content": "Tớ đang nằm nghe nhạc và ăn bánh nè 🍰 Còn cậu sao rồi?"}
+        ]
 
-    # Thêm prompt người dùng
     chat_history[user_id].append({"role": "user", "content": user_prompt})
 
     body = {
@@ -71,42 +70,27 @@ def generate_response_together(user_prompt, user_id):
 
     response = requests.post(url, headers=headers, json=body)
     if response.status_code == 200:
-        result = response.json()
-        reply = result["choices"][0]["message"]["content"]
+        reply = response.json()["choices"][0]["message"]["content"]
         chat_history[user_id].append({"role": "assistant", "content": reply})
-
-        # Giới hạn độ dài hội thoại
         if len(chat_history[user_id]) > 20:
             chat_history[user_id] = chat_history[user_id][-20:]
-
         return reply
     else:
         return f"⚠️ Lỗi: {response.status_code} - {response.text}"
 
-
-# === Bot sẵn sàng ===
 @client.event
 async def on_ready():
     print(f"✅ Bot đã đăng nhập: {client.user}")
-    print(f"📢 Kênh không cần mention: {NO_MENTION_REQUIRED_CHANNELS}")
-    print(f"🔔 Kênh cần mention: {MENTION_REQUIRED_CHANNELS}")
-    activity = discord.Activity(type=discord.ActivityType.listening,
-                                name="Ur mom 💀")
+    activity = discord.Activity(type=discord.ActivityType.listening, name="Ur mom 💀")
     await client.change_presence(activity=activity)
 
-
-# === Nhận tin nhắn ===
 @client.event
 async def on_message(message):
-    if message.author == client.user:
+    if message.author == client.user or message.channel.id not in ALL_ALLOWED_CHANNELS:
         return
 
-    if message.channel.id not in ALL_ALLOWED_CHANNELS:
+    if message.channel.id in MENTION_REQUIRED_CHANNELS and not check_for_bot_mention(message):
         return
-
-    if message.channel.id in MENTION_REQUIRED_CHANNELS:
-        if not check_for_bot_mention(message):
-            return
 
     if message.author.bot and client.user not in message.mentions:
         return
@@ -124,7 +108,8 @@ async def on_message(message):
             print(f"🔥 Lỗi khi gọi Together.ai: {str(e)}")
             await message.channel.send("❌ Có lỗi xảy ra: " + str(e))
 
-
-# === Khởi chạy bot ===
-if DISCORD_BOT_TOKEN:
-    client.run(DISCORD_BOT_TOKEN)
+# === Khởi chạy ===
+if __name__ == "__main__":
+    keep_alive()  # Mở web server để Render không tắt
+    if DISCORD_BOT_TOKEN:
+        client.run(DISCORD_BOT_TOKEN)
