@@ -1,7 +1,6 @@
 import discord
 import os
 import requests
-from keep_alive import keep_alive
 
 # === ENV ===
 TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY")
@@ -128,5 +127,4 @@ async def on_message(message):
 
 # === Khởi chạy bot ===
 if DISCORD_BOT_TOKEN:
-    keep_alive()
     client.run(DISCORD_BOT_TOKEN)
