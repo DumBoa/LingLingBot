@@ -61,13 +61,13 @@ def generate_response_together(user_prompt, user_id):
     chat_history[user_id].append({"role": "user", "content": user_prompt})
 
     body = {
-        "model": "meta-llama/Llama-3-8b-chat-hf",
+        "model": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free",
         "messages": chat_history[user_id],
         "temperature": 0.7,
         "max_tokens": 1024,
         "top_p": 0.95
     }
-
+#meta-llama/Llama-3-8b-chat-hf
     response = requests.post(url, headers=headers, json=body)
     if response.status_code == 200:
         reply = response.json()["choices"][0]["message"]["content"]
