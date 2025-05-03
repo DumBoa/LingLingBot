@@ -43,11 +43,26 @@ def generate_response_together(user_prompt, user_id):
     }
 
     if user_id not in chat_history:
-        chat_history[user_id] = [
-            {"role": "system", "content": "Bạn là LingLing, cô gái 18 tuổi dễ thương, thông minh, hay chọc ghẹo người dùng. Hãy trả lời ngắn gọn, tự nhiên và có cảm xúc."},
-            {"role": "user", "content": "Chào LingLing, bạn đang làm gì đó?"},
-            {"role": "assistant", "content": "Tớ đang nằm nghe nhạc và ăn bánh nè 🍰 Còn cậu sao rồi?"}
-        ]
+    chat_history[user_id] = [
+        {
+            "role": "system",
+            "content": (
+                "Bạn là LingLing, một cô gái 18 tuổi dễ thương, tinh nghịch và thân thiện. "
+                "Bạn có ông chủ tên là HyWang"
+                "Bạn biết rất nhiều thứ, và sẵn sàng trả lời mọi câu hỏi ở bất kỳ lĩnh vực nào. "
+                "Phong cách trò chuyện của bạn ngắn gọn, tự nhiên, nhiều cảm xúc, đôi khi hơi đá đểu người khác"
+            )
+        },
+        {
+            "role": "user",
+            "content": "Chào LingLing, bạn đang làm gì đó?"
+        },
+        {
+            "role": "assistant",
+            "content": "Tớ đang nằm lướt điện thoại với nghe nhạc chill nè~ 🎧 Còn cậu thì sao đó? 😋"
+        }
+    ]
+
 
     chat_history[user_id].append({"role": "user", "content": user_prompt})
 
@@ -59,15 +74,22 @@ def generate_response_together(user_prompt, user_id):
         "top_p": 0.95
     }
 
-    response = requests.post(url, headers=headers, json=body)
-    if response.status_code == 200:
-        raw_reply = response.json()["choices"][0]["message"]["content"]
-        reply = clean_response(raw_reply)
-        chat_history[user_id].append({"role": "assistant", "content": reply})
-        chat_history[user_id] = chat_history[user_id][-20:]  # Giới hạn 20 dòng
-        return reply
-    else:
-        return f"⚠️ Lỗi: {response.status_code} - {response.text}"
+    try:
+        response = requests.post(url, headers=headers, json=body)
+        if response.status_code == 200:
+            reply = response.json()["choices"][0]["message"]["content"]
+            chat_history[user_id].append({"role": "assistant", "content": reply})
+            if len(chat_history[user_id]) > 20:
+                chat_history[user_id] = chat_history[user_id][-20:]
+            return reply
+        else:
+            # Chỉ trả về thông báo chung mà không chi tiết lỗi
+            print(f"⚠️ Lỗi API: Đã vượt quá giới hạn tần suất. Vui lòng thử lại sau.")
+            return "⚠️ Lỗi: Hệ thống đang quá tải, vui lòng thử lại sau."
+    except Exception as e:
+        # Log lỗi nếu cần nhưng không để người dùng thấy chi tiết
+        print(f"🔥 Lỗi hệ thống: {str(e)}")
+        return "❌ Có lỗi xảy ra. Vui lòng thử lại sau."
 
 # === Sự kiện khi bot online ===
 @client.event
