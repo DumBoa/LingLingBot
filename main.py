@@ -52,7 +52,7 @@ def generate_response_together(user_prompt, user_id):
     chat_history[user_id].append({"role": "user", "content": user_prompt})
 
     body = {
-        "model": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free",
+        "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
         "messages": chat_history[user_id],
         "temperature": 0.7,
         "max_tokens": 1024,
