@@ -1,23 +1,7 @@
-from flask import Flask
-from threading import Thread
+from keep_alive import keep_alive
 import discord
 import os
 import requests
-
-# === Flask App (Keep Alive) ===
-app = Flask(__name__)
-
-@app.route('/')
-def home():
-    return "Bot is running!"
-
-def run():
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
-
-def keep_alive():
-    t = Thread(target=run)
-    t.start()
 
 # === ENV ===
 TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY")
@@ -67,7 +51,7 @@ def generate_response_together(user_prompt, user_id):
         "max_tokens": 1024,
         "top_p": 0.95
     }
-#meta-llama/Llama-3-8b-chat-hf
+
     response = requests.post(url, headers=headers, json=body)
     if response.status_code == 200:
         reply = response.json()["choices"][0]["message"]["content"]
@@ -110,6 +94,6 @@ async def on_message(message):
 
 # === Khởi chạy ===
 if __name__ == "__main__":
-    keep_alive()  # Mở web server để Render không tắt
+    keep_alive()
     if DISCORD_BOT_TOKEN:
         client.run(DISCORD_BOT_TOKEN)
