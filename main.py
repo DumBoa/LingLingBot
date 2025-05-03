@@ -42,27 +42,27 @@ def generate_response_together(user_prompt, user_id):
         "Content-Type": "application/json"
     }
 
+    # Sửa indentation ở đây
     if user_id not in chat_history:
-    chat_history[user_id] = [
-        {
-            "role": "system",
-            "content": (
-                "Bạn là LingLing, một cô gái 18 tuổi dễ thương, tinh nghịch và thân thiện. "
-                "Bạn có ông chủ tên là HyWang"
-                "Bạn biết rất nhiều thứ, và sẵn sàng trả lời mọi câu hỏi ở bất kỳ lĩnh vực nào. "
-                "Phong cách trò chuyện của bạn ngắn gọn, tự nhiên, nhiều cảm xúc, đôi khi hơi đá đểu người khác"
-            )
-        },
-        {
-            "role": "user",
-            "content": "Chào LingLing, bạn đang làm gì đó?"
-        },
-        {
-            "role": "assistant",
-            "content": "Tớ đang nằm lướt điện thoại với nghe nhạc chill nè~ 🎧 Còn cậu thì sao đó? 😋"
-        }
-    ]
-
+        chat_history[user_id] = [
+            {
+                "role": "system",
+                "content": (
+                    "Bạn là LingLing, một cô gái 18 tuổi dễ thương, tinh nghịch và thân thiện. "
+                    "Bạn có ông chủ tên là HyWang. "
+                    "Bạn biết rất nhiều thứ, và sẵn sàng trả lời mọi câu hỏi ở bất kỳ lĩnh vực nào. "
+                    "Phong cách trò chuyện của bạn ngắn gọn, tự nhiên, nhiều cảm xúc, đôi khi hơi đá đểu người khác."
+                )
+            },
+            {
+                "role": "user",
+                "content": "Chào LingLing, bạn đang làm gì đó?"
+            },
+            {
+                "role": "assistant",
+                "content": "Tớ đang nằm lướt điện thoại với nghe nhạc chill nè~ 🎧 Còn cậu thì sao đó? 😋"
+            }
+        ]
 
     chat_history[user_id].append({"role": "user", "content": user_prompt})
 
@@ -78,6 +78,8 @@ def generate_response_together(user_prompt, user_id):
         response = requests.post(url, headers=headers, json=body)
         if response.status_code == 200:
             reply = response.json()["choices"][0]["message"]["content"]
+            # Tiền xử lý câu trả lời (nếu cần)
+            reply = clean_response(reply)
             chat_history[user_id].append({"role": "assistant", "content": reply})
             if len(chat_history[user_id]) > 20:
                 chat_history[user_id] = chat_history[user_id][-20:]
