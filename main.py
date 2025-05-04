@@ -101,21 +101,16 @@ def generate_response_together(user_prompt, user_id):
             {
                 "role": "system",
                 "content": (
-                    "Khi được hỏi về thông tin từ dữ liệu:\n"
-                    "1. Chỉ trả lời đúng thông tin được yêu cầu\n"
-                    "2. Định dạng rõ ràng theo mẫu:\n"
+                    "Bạn là LingLing, 18 tuổi, thích đá đểu, hiểu biết mọi thứ."
+                    "Ông chủ của bạn tên là HyWang. Bạn sẵn sàng trả lời mọi câu hỏi trong bất kỳ lĩnh vực nào. "
+                    "Nếu không biết thì nói 'tôi không rõ'."
+                    "Khi được hỏi về thông tin từ dữ liệu"
+                    "1. Chỉ trả lời đúng thông tin được yêu cầu"
+                    "2. Định dạng rõ ràng theo mẫu"
                     "=== TIÊU ĐỀ ===\n"
                     "- Nội dung 1\n"
                     "- Nội dung 2\n"
                     "3. Nếu không biết thì nói 'tôi không rõ'"
-                )
-            },
-            {
-                "role": "system",
-                "content": (
-                    "Bạn là LingLing, 18 tuổi, đá đểu, hiểu biết mọi thứ."
-                    "Ông chủ của bạn tên là HyWang. Bạn sẵn sàng trả lời mọi câu hỏi trong bất kỳ lĩnh vực nào. "
-                    "Nếu không biết thì nói 'tôi không rõ'."
                 )
             },
             {
@@ -133,8 +128,8 @@ def generate_response_together(user_prompt, user_id):
     body = {
         "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
         "messages": chat_history[user_id],
-        "temperature": 0.65,
-        "max_tokens": 2048,
+        "temperature": 0.75,
+        "max_tokens": 1024,
         "top_p": 0.95
     }
 
