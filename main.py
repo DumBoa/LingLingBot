@@ -166,7 +166,7 @@ def generate_response_together(user_prompt, user_id):
 @client.event
 async def on_ready():
     print(f"✅ Bot đã đăng nhập: {client.user}")
-    activity = discord.Activity(type=discord.ActivityType.listening, name="HyWang 💖")
+    activity = discord.Activity(type=discord.ActivityType.listening, name="https://www.youtube.com/watch?v=dQw4w9WgXcQ 💖")
     await client.change_presence(activity=activity)
 
 @client.event
