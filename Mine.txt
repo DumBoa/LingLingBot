@@ -1,0 +1,47 @@
+
+- Thông tin
+
+# Khi đào các loại quặng, bạn sẽ:
+# Nhận EXP để lên cấp kỹ năng đào mỏ.
+# Thu thập vật phẩm như Flux, Gemstones, Fossils và Artifacts.
+# Kiếm tiền thông qua Zeta – đơn vị tiền tệ trong Minecraft.
+
+- Các lệnh chính
+
+/mine            → Menu chính
+/mine help       → Xem các lệnh
+/mine stats      → Xem chỉ số bản thân
+/mine zeta       → Xem tiền tệ
+/mine shop       → Bán đồ để kiếm Zeta
+/mine artifacts  → Artifact & Fossil
+/mine vessels    → Vessel & Requiem
+/mine journal    → Xem tài liệu & hướng dẫn
+/mine singularity→ Nâng cấp kỹ năng
+
+- ZETA
+
+# Zeta là tiền tệ bạn kiếm được khi bán các vật phẩm đặc biệt (Flux, Fossils, Artifacts...).
+
+- ARTIFACTS & FOSSILS
+
+# Fossils và Artifacts rơi ra khi đào quặng.
+# Artifact cần được định danh mới sử dụng được.
+# Fossils có thể nâng cấp kỹ năng hoặc buff.
+
+
+────────────────────────────
+- VESSELS & REQUIEMS
+
+# Vessels là vật phẩm giúp bạn tùy chỉnh buff khi đào mỏ.
+# Có thể khảm Requiem vào Vessel để tăng hiệu ứng.
+
+
+- JOURNAL & TÀI LIỆU
+
+# Cung cấp thông tin chi tiết về từng tính năng, hướng dẫn nâng cấp, công thức rune...
+
+- NÂNG CẤP KỸ NĂNG
+
+# Bạn có thể nâng cấp kỹ năng đào hoặc mở khóa kỹ năng đặc biệt bằng EXP và tài nguyên.
+
+

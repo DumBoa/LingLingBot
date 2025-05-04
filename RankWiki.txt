@@ -1,0 +1,146 @@
+- Rank MEMBER
+#I.Member
+#sethome lưu lại các địa điểm mà bạn muốn quay lại
+#/home dịch chuyển tới địa điểm bạn đã sethome trước đó
+#/delhome xóa sethome trước đó
+#/back quay lại địa điểm bạn vừa tạch
+#/shop những đồ dùng cần thiết
+#/pay chuyển tiền cho người khác
+#/sf guide lấy sách slimefun
+#/kit member nhận phần quà rank của bạn
+#/tpa gửi yêu cầu dịch chuyển tới bạn bè trong máy chủ
+#/trash vứt rác đúng nơi quy định
+#rtp dịch chuyển ngẫu nhiên trong phạm vi tọa độ từ 1 -> 500
+#/tab toggle on/off để bật hoặc tắt bảng thông tin
+#/emf shop để bán cá
+#+ Enchant Max = 2 ( Ce )
+
+
+- Rank Knight
+#II.Knight
+#/sf open_guide mở sách slimefun thông qua lệnh
+#/tab toggle on/off bật tắt bảng thông tin
+#/kit knight phần quà xịn hơn
+#/tpahere gửi yêu cầu dịch chuyển người khác đến vị trí của mình
+#/tab scoreboard on/off để mở hoặc tắt bảng thông tin
+#/Sethome được 3 vị trí nhà ở
+#/rtp dịch chuyển ngẫu nhiên trong phạm vi tọa độ từ 1 -> 1000
+#+ Được các quyền lợi của Member
+#+ Simple enchantment book x2
+#+ Key Normal x2
+#+ Key Slimefun x4
+#+ Role Hex Color rực rỡ
+#+ Ngân phiếu 2k
+#+ Fix pro max x3
+#+ Knight Sword
+#+ x8 Food ( Đặc Biệt )
+#+ Large Health Potion x3
+#+ Enchant Max = 3 ( Ce )
+
+
+- Rank WARRIOR
+#III.Warrior
+#/feed Bón cho bạn ăn free
+#/kit Warrior
+#/rtp dịch chuyển ngẫu nhiên trong phạm vi tọa độ từ 1 -> 2000
+#/Sethome được 5 vị trí nhà ở
+#+ Có Role Chói lóa trong máy chủ
+#+ Thừa hưởng tất cả các quyền từ rank Member và knight
+#+ Simple Enchantment book x3
+#+ Thưởng Key ( Trong kit )
+#+ Key Normal x3
+#+ Key Slimefun x5
+#+ Unique Echantment book x2
+#+ Fix pro max x3
+#+ Fix Item Ultra x1
+#+ Phiếu bay Lỏ 5p
+#+ Ngân phiếu 5000
+#+ Large Health Potion x3
+#+ x8 Food ( Đặc Biệt )
+#+ Enchant Max = 4 ( Ce )
+
+
+- Rank KING
+#IV.King
+#/feed bón cho bạn ăn free
+#/tfly bật tắt bay
+#/tfly bal kiểm tra thời gian bay
+#/fix sửa chữa item bị hỏng free
+#/Sethome được 6 vị trí nhà ở
+#/rtp dịch chuyển ngẫu nhiên trong phạm vi tọa độ từ 1 -> 3000
+#/pweather tùy chỉnh thời tiết bản thân
+#/kit King Giáp và các phần quà giá trị
+#/emf sellall bán tất cả cá nhanh hơn
+#+ Role Tím mộng mơ trong máy chủ
+#+ Key Tradecrate x1
+#+ Key Normal x5
+#+ Key Slimefun x6
+#+ Large Health Potion x5
+#+ Fix Item Ultra x5
+#+ Simple Enchantment Book x5
+#+ Unique Enchantment Book x4
+#+ Elite Enchantment x2
+#+ Ngân phiếu 13000 + 20lv
+#+ x3 Mảnh nâng cấp giáp
+#+ x30 Food ( Đặc Biệt )
+#+ Enchanted Golden Apple x1
+#+ Nhận 3h bay mỗi ngày
+#+ Enchant Max = 5 ( Ce )
+
+- Rank SEMIGOD
+#V.SemiGod
+#/heal hồi cả máu lần thức ăn
+#/Sethome được 15 vị trí nhà ở
+#/rtp dịch chuyển ngẫu nhiên trong phạm vi tọa độ từ 1 -> 4000
+#/pweather tùy chỉnh thời tiết bản thân
+#/fix all sửa chữa tất cả đồ bị hỏng trong kho đồ
+#/kit SemiGod
+#+ Nhận 5h bay mỗi ngày
+#+ Thưởng thêm Key
+#+ Key Normal x8
+#+ Key Tradecrate x4
+#+ Key Slimefun x9
+#+ x64 Food ( Đặc biệt )
+#+ Large Health Potion x5
+#+ Ngân phiếu 16000 + 25lv
+#+ Simple Enchantment Book x8
+#+ Unique Enchantment Book x7
+#+ Elite Enchantment Book x4
+#+ Ultimate Enchantment Book x2
+#+ Enchanted Golden Apple x1
+#+ x6 Mảnh trang trí giáp
+#+ Mảnh điểm danh nhận vũ khí x1
+#+ Enchant Max = 6 ( Ce )
+
+
+
+- Rank GOD
+#VI.God
+#/hat đội mọi thứ lên đầu
+#/kit God
+#/ec mở rương ender
+#/Sethome lên tới 30 vị trí
+#/Rtp ngẫu nhiên 1 -> 5000
+#+ Thưởng thêm key
+#+ Key Normal x5
+#+ Key Money
+#+ Key Slimefun x5
+#+ Hưởng toàn quyền lợi của các bậc rank trên
+#+ Nhận 12h bay mỗi ngày
+#+ Giảm thời gian khi dịch chuyển ngẫu nhiên
+#+ x128 Food ( Đặc biệt )
+#+ Large Health Potion x5
+#+ Ngân phiêu 20000 + 30lv
+#+ Fix Item Ultra x12
+#+ Key TradeCrate x7
+#+ Key Slimefun x13
+#+ Key Normal x15
+#+ x9 Mảnh nâng cấp giáp
+#+ x2 nguyên liệu điểm danh
+#+ Simple Enchantment Book x12
+#+ Unique Enchantment Book x9
+#+ Elite Enchantment Book x6
+#+ Ultimate Enchantment Book x3
+#+ Legendary Enchantment Book x1
+#+ Enchanted Golden Apple x1
+#+ Enchant Max = 7 ( Ce )
