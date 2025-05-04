@@ -47,21 +47,21 @@ ALL_ALLOWED_CHANNELS = MENTION_REQUIRED_CHANNELS + NO_MENTION_REQUIRED_CHANNELS
 # === Bộ nhớ hội thoại ===
 chat_history = {}
 
-# === Tìm kiếm thông tin ===
-def search_structured_data(query):
-    query = query.lower()
-    results = []
+# === Tìm kiếm thông tin rank ===
+def search_rank_info(rank_name):
+    rank_name = rank_name.strip().lower()
     
-    # Tìm chính xác tiêu đề
-    if query in [k.lower() for k in STRUCTURED_DATA.keys()]:
-        exact_match = [k for k in STRUCTURED_DATA.keys() if k.lower() == query][0]
-        return f"=== {exact_match} ===\n" + "\n".join(STRUCTURED_DATA[exact_match])
+    # Tìm trong dữ liệu có cấu trúc
+    for section in STRUCTURED_DATA:
+        if section.lower() == f"rank {rank_name}" or section.lower() == rank_name:
+            return f"=== {section.upper()} ===\n" + "\n".join(f"- {item}" for item in STRUCTURED_DATA[section])
     
     # Tìm trong nội dung
+    results = []
     for section, content in STRUCTURED_DATA.items():
-        if any(query in line.lower() for line in content):
+        if any(rank_name in line.lower() for line in content):
             results.append(f"=== {section} ===")
-            results.extend([line for line in content if query in line.lower()])
+            results.extend([f"- {line}" for line in content if rank_name in line.lower()])
     
     return "\n".join(results) if results else None
 
@@ -69,17 +69,31 @@ def search_structured_data(query):
 def handle_special_queries(user_prompt):
     lower_prompt = user_prompt.lower()
     
+    # Xử lý yêu cầu về rank
+    rank_match = re.search(r"(rank|thông tin rank|cấp bậc|rank level)\s+(\w+)", lower_prompt)
+    if not rank_match:
+        rank_match = re.search(r"(rank|thông tin|cấp bậc)\s+(\w+)\s+(rank|level)", lower_prompt)
+    
+    if rank_match:
+        rank_name = rank_match.group(2)
+        result = search_rank_info(rank_name)
+        if result:
+            return result
+        else:
+            return f"Không tìm thấy thông tin về rank {rank_name.capitalize()}"
+    
     # Yêu cầu thông tin từ dữ liệu
     if "lấy thông tin" in lower_prompt or "đưa thông tin" in lower_prompt:
         query = re.sub(r"(lấy|đưa) thông tin", "", lower_prompt).strip()
         if "toàn bộ" in query or "tất cả" in query:
             full_info = []
             for section, content in STRUCTURED_DATA.items():
-                full_info.append(f"=== {section} ===")
-                full_info.extend(content)
+                full_info.append(f"=== {section.upper()} ===")
+                full_info.extend([f"- {item}" for item in content])
             return "\n".join(full_info)
         else:
-            return search_structured_data(query) or "Không tìm thấy thông tin phù hợp."
+            result = search_rank_info(query) or search_structured_data(query)
+            return result if result else "Không tìm thấy thông tin phù hợp."
     
     return None
 
@@ -101,16 +115,16 @@ def generate_response_together(user_prompt, user_id):
             {
                 "role": "system",
                 "content": (
-                    "Bạn là LingLing, 18 tuổi, thích đá đểu, hiểu biết mọi thứ."
-                    "Ông chủ của bạn tên là HyWang. Bạn sẵn sàng trả lời mọi câu hỏi trong bất kỳ lĩnh vực nào. "
-                    "Nếu không biết thì nói 'tôi không rõ'."
-                    "Khi được hỏi về thông tin từ dữ liệu"
-                    "1. Chỉ trả lời đúng thông tin được yêu cầu"
-                    "2. Định dạng rõ ràng theo mẫu"
+                    "Bạn là LingLing, 18 tuổi, thích đá đểu, hiểu biết mọi thứ.\n"
+                    "Ông chủ của bạn tên là HyWang. Bạn sẵn sàng trả lời mọi câu hỏi trong bất kỳ lĩnh vực nào.\n"
+                    "Khi được hỏi về dữ liệu từ file:\n"
+                    "1. Chỉ trả lời đúng thông tin được yêu cầu\n"
+                    "2. Định dạng rõ ràng theo mẫu:\n"
                     "=== TIÊU ĐỀ ===\n"
                     "- Nội dung 1\n"
                     "- Nội dung 2\n"
                     "3. Nếu không biết thì nói 'tôi không rõ'"
+                    "4. Nếu không hỏi về thông tin trong file mẫu thì trả lời bình thường không cần theo định dạng"
                 )
             },
             {
@@ -128,9 +142,10 @@ def generate_response_together(user_prompt, user_id):
     body = {
         "model": "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
         "messages": chat_history[user_id],
-        "temperature": 0.75,
+        "temperature": 0.7,
         "max_tokens": 1024,
-        "top_p": 0.95
+        "top_p": 0.9,
+        "stop": ["</s>"]
     }
 
     try:
@@ -143,16 +158,16 @@ def generate_response_together(user_prompt, user_id):
             return reply
         else:
             print(f"⚠️ Lỗi API: {response.status_code}")
-            return "⚠️ Hỏi ít thôi."
+            return "⚠️ Hỏi ít thôi, tôi đang bận!"
     except Exception as e:
         print(f"🔥 Lỗi hệ thống: {str(e)}")
-        return "❌ Hỏi nhiều quá tôi phải nghỉ đã"
+        return "❌ Lỗi rồi, thử lại sau nhé"
 
 # === Sự kiện Discord ===
 @client.event
 async def on_ready():
     print(f"✅ Bot đã đăng nhập: {client.user}")
-    activity = discord.Activity(type=discord.ActivityType.listening, name="Ur mom 💀")
+    activity = discord.Activity(type=discord.ActivityType.listening, name="HyWang 💖")
     await client.change_presence(activity=activity)
 
 @client.event
@@ -181,7 +196,7 @@ async def on_message(message):
                 await message.channel.send(reply)
         except Exception as e:
             print(f"🔥 Lỗi khi xử lý tin nhắn: {str(e)}")
-            await message.channel.send("❌ Có lỗi xảy ra: " + str(e))
+            await message.channel.send("❌ Có lỗi xảy ra, thử lại sau nhé!")
 
 # === Khởi chạy ===
 if __name__ == "__main__":
