@@ -34,8 +34,9 @@ STRUCTURED_DATA = load_structured_data(["Mine.txt", "RankWiki.txt", "InfoDiscord
 # === Discord Setup ===
 intents = discord.Intents.default()
 intents.message_content = True
-intents.threads = True  # 👈 Cho phép lắng nghe sự kiện thread
-client = discord.Client(intents=intents)
+intents.guilds = True
+intents.guild_messages = True
+intents.members = True
 
 # === Kênh được phép hoạt động ===
 MENTION_REQUIRED_CHANNELS = [1177232368621342791]
