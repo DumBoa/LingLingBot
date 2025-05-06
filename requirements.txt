@@ -1,4 +1,3 @@
 discord.py
 flask
 requests
-discord.py>=2.1.0
