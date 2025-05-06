@@ -152,7 +152,7 @@ async def on_message(message):
     if message.author.bot and client.user not in message.mentions:
         return
 
-    prompt = message.content.replace(f"<@{client.user.id}>", "").relpace("@LingLing", "").strip()
+    prompt = message.content.replace(f"<@{client.user.id}>", "").replace("@LingLing", "").strip()
     if not prompt:
         return
 
