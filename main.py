@@ -34,11 +34,12 @@ STRUCTURED_DATA = load_structured_data(["Mine.txt", "RankWiki.txt", "InfoDiscord
 # === Discord Setup ===
 intents = discord.Intents.default()
 intents.message_content = True
+intents.threads = True  # 👈 Cho phép lắng nghe sự kiện thread
 client = discord.Client(intents=intents)
 
 # === Kênh được phép hoạt động ===
 MENTION_REQUIRED_CHANNELS = [1177232368621342791]
-NO_MENTION_REQUIRED_CHANNELS = [1367495810257915926, 1157184256594952253]
+NO_MENTION_REQUIRED_CHANNELS = [1367495810257915926, 1157184256594952253,1369231225658544219]
 ALL_ALLOWED_CHANNELS = MENTION_REQUIRED_CHANNELS + NO_MENTION_REQUIRED_CHANNELS
 
 # === Bộ nhớ hội thoại ===
@@ -134,7 +135,14 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.author.bot or message.channel.id not in ALL_ALLOWED_CHANNELS:
+    if message.author.bot:
+        return
+
+    # Cho phép bot phản hồi trong thread nếu parent_id nằm trong ALL_ALLOWED_CHANNELS
+    if isinstance(message.channel, discord.Thread):
+        if message.channel.parent_id not in ALL_ALLOWED_CHANNELS:
+            return
+    elif message.channel.id not in ALL_ALLOWED_CHANNELS:
         return
 
     if message.channel.id in MENTION_REQUIRED_CHANNELS and not (
@@ -153,6 +161,16 @@ async def on_message(message):
         except Exception as e:
             await message.channel.send("❌ Thằng chủ em nghèo quá nên chỉ chat được 2k ký tự thôi")
             print(f"❌ Lỗi gửi tin nhắn Discord: {e}")
+
+# === Tham gia & phản hồi Thread mới tạo ===
+@client.event
+async def on_thread_create(thread):
+    try:
+        if thread.parent_id in ALL_ALLOWED_CHANNELS:
+            await thread.join()
+            await thread.send("👋 Chào bạn! Mình là LingLing, cần gì thì nói nha :v")
+    except Exception as e:
+        print(f"❌ Lỗi xử lý thread mới: {e}")
 
 # === Khởi chạy bot ===
 if __name__ == "__main__":
