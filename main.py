@@ -38,6 +38,9 @@ intents.guilds = True
 intents.guild_messages = True
 intents.members = True
 
+client = discord.Client(intents=intents)
+
+
 # === Kênh được phép hoạt động ===
 MENTION_REQUIRED_CHANNELS = [1177232368621342791]
 NO_MENTION_REQUIRED_CHANNELS = [1367495810257915926, 1157184256594952253,1369231225658544219]
