@@ -1,6 +1,6 @@
 # 🤖 LingLing Bot - Discord AI Chatbot
 
-LingLing là chatbot Discord đáng yêu, sử dụng Together.ai (LLaMA 3) để phản hồi hội thoại một cách tự nhiên, thân thiện bằng tiếng Việt. Hoạt động 24/7 nhờ Render.com.
+LingLing là chatbot Discord đáng yêu, sử dụng Together.ai (Tùy vào Model) để phản hồi hội thoại một cách tự nhiên, thân thiện bằng tiếng Việt. Hoạt động 24/7 nhờ Render.com.
 
 ## 🧠 Tính năng
 
@@ -10,9 +10,7 @@ LingLing là chatbot Discord đáng yêu, sử dụng Together.ai (LLaMA 3) đ�
 - Tương thích nhiều server Discord
 - Chạy 24/7 miễn phí qua Render.com
 
-## 🚀 Triển khai
-
-### Bước 1: Clone repo
-
-```bash
-[ git clone https://github.com/<your-username>/LingLing.git ]
+- Sử dụng Github - Nới chứa code
+- Render - Server nhỏ để chạy code
+- UpTimeRobot - để ping server liên tục => chạy 24/24
+  
